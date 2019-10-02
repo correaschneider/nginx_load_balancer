@@ -1,0 +1,19 @@
+version: '3.2'
+
+services:
+    load_balancer:
+        image: load_balancer:0.1
+        build: ./docker/nginx
+        links:
+            - servico_php
+        volumes:
+            - ./docker/nginx/server.conf:/etc/nginx/nginx.conf
+        ports:
+            - 88:80
+
+    servico_php:
+        image: php:7.2-apache
+        ports:
+            - 5000-5004:80
+        volumes:
+            - ./app/index.php:/var/www/html/index.php
